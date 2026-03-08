@@ -1,0 +1,73 @@
+<?php
+
+namespace App\Filament\Resources\RoomResource\RelationManagers;
+
+use Filament\Actions\AssociateAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\CreateAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\DissociateAction;
+use Filament\Actions\DissociateBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\TextInput;
+use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
+
+class GoodsRelationManager extends RelationManager
+{
+    protected static string $relationship = 'goods';
+
+    public function form(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
+            ]);
+    }
+
+    public function table(Table $table): Table
+    {
+        return $table
+            ->recordTitleAttribute('name')
+            ->columns([
+                TextColumn::make('id_bmn')
+                    ->label('ID BMN')
+                    ->searchable(),
+                TextColumn::make('name')
+                    ->searchable(),
+                TextColumn::make('brand')
+                    ->searchable(),
+                TextColumn::make('condition')
+                    ->badge()
+                    ->color(fn (?string $state): string => match ($state) {
+                        'Baik' => 'success',
+                        'Rusak Ringan' => 'warning',
+                        'Rusak Berat' => 'danger',
+                        default => 'gray',
+                    }),
+            ])
+            ->filters([
+                //
+            ])
+            ->headerActions([
+                CreateAction::make(),
+                AssociateAction::make(),
+            ])
+            ->recordActions([
+                EditAction::make(),
+                DissociateAction::make(),
+                DeleteAction::make(),
+            ])
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DissociateBulkAction::make(),
+                    DeleteBulkAction::make(),
+                ]),
+            ]);
+    }
+}
