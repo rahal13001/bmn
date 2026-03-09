@@ -35,21 +35,8 @@ class GoodsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('name')
             ->columns([
-                TextColumn::make('id_bmn')
-                    ->label('ID BMN')
-                    ->searchable(),
                 TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('brand')
-                    ->searchable(),
-                TextColumn::make('condition')
-                    ->badge()
-                    ->color(fn (?string $state): string => match ($state) {
-                        'Baik' => 'success',
-                        'Rusak Ringan' => 'warning',
-                        'Rusak Berat' => 'danger',
-                        default => 'gray',
-                    }),
             ])
             ->filters([
                 //

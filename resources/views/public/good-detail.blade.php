@@ -115,9 +115,9 @@
                                 <div class="w-10 h-10 rounded-full bg-white text-teal-600 group-hover:bg-teal-500 group-hover:text-white flex flex-shrink-0 items-center justify-center transition-colors">
                                     <i class="ph ph-map-pin text-xl"></i>
                                 </div>
-                                <div class="truncate pr-2">
-                                    <span class="block font-extrabold text-lg truncate">{{ $good->room->name }}</span>
-                                    <span class="block text-xs font-medium opacity-80 mt-0.5 group-hover:text-teal-100">Klik untuk melihat seluruh inventaris di ruangan ini</span>
+                                <div class="flex-1 pr-2 min-w-0">
+                                    <span class="block font-extrabold text-[1.05rem] sm:text-lg leading-tight break-words mb-1">{{ $good->room->name }}</span>
+                                    <span class="block text-[11px] sm:text-xs font-medium leading-relaxed opacity-80 mt-0.5 group-hover:text-teal-100">Klik untuk melihat seluruh inventaris di ruangan ini</span>
                                 </div>
                                 <i class="ph ph-arrow-up-right text-xl ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform border-l border-teal-200/50 group-hover:border-teal-400/50 pl-4 h-full"></i>
                             </a>
