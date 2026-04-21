@@ -3,7 +3,7 @@
 @section('title', 'Penyimpanan Ruangan: ' . $room->name)
 
 @section('content')
-<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8" x-data="{ viewMode: 'grouped' }">
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8" x-data="{ viewMode: 'grouped', photoModalOpen: false, currentPhoto: '', currentPhotoName: '' }">
     <!-- Room Info Card -->
     <div class="bg-white/90 rounded-[2rem] shadow-xl shadow-slate-200/50 border border-white overflow-hidden backdrop-blur-xl mb-8 relative group">
         <!-- Decorative Top line -->
@@ -93,6 +93,15 @@
                             $conditionClass = 'bg-red-50 text-red-700 border-red-200';
                             $icon = 'ph-x-circle';
                         }
+                        $firstPhoto = null;
+                        if (!empty($good->documentation) && is_array($good->documentation)) {
+                            foreach ($good->documentation as $doc) {
+                                if (\Illuminate\Support\Str::endsWith(strtolower($doc), ['.jpg', '.jpeg', '.png', '.webp'])) {
+                                    $firstPhoto = $doc;
+                                    break;
+                                }
+                            }
+                        }
                     @endphp
                     <a href="{{ route('public.good.detail', $good) }}" class="group block bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:shadow-xl hover:border-teal-300 hover:-translate-y-1 transition-all duration-300">
                         <div class="flex justify-between items-start gap-4 mb-4">
@@ -116,8 +125,15 @@
                                 <i class="ph ph-calendar-blank"></i> <span class="text-slate-600 font-bold">{{ $good->date ? \Carbon\Carbon::parse($good->date)->format('Y') : '-' }}</span>
                             </span>
                             
-                            <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-teal-50 group-hover:text-teal-600 transition-colors">
-                                <i class="ph ph-arrow-right font-bold"></i>
+                            <div class="flex items-center gap-2">
+                                @if($firstPhoto)
+                                    <button @click.prevent="photoModalOpen = true; currentPhoto = '{{ Storage::url($firstPhoto) }}'; currentPhotoName = '{{ str_replace("'", "\'", $good->name) }}'" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-colors border border-indigo-200 hover:border-indigo-600 text-xs font-bold shadow-sm" title="Lihat Foto">
+                                        <i class="ph ph-camera text-base"></i> Foto
+                                    </button>
+                                @endif
+                                <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-teal-50 group-hover:text-teal-600 transition-colors border border-slate-100">
+                                    <i class="ph ph-arrow-right font-bold"></i>
+                                </div>
                             </div>
                         </div>
                     </a>
@@ -173,6 +189,15 @@
                                             $conditionClass = 'bg-red-50 text-red-700 border-red-200';
                                             $icon = 'ph-x-circle';
                                         }
+                                        $firstPhoto = null;
+                                        if (!empty($good->documentation) && is_array($good->documentation)) {
+                                            foreach ($good->documentation as $doc) {
+                                                if (\Illuminate\Support\Str::endsWith(strtolower($doc), ['.jpg', '.jpeg', '.png', '.webp'])) {
+                                                    $firstPhoto = $doc;
+                                                    break;
+                                                }
+                                            }
+                                        }
                                     @endphp
                                     <a href="{{ route('public.good.detail', $good) }}" class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:border-teal-400 hover:shadow-md transition-all group/item">
                                         <div class="flex-1">
@@ -203,8 +228,15 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        <div class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 group-hover/item:text-teal-600 group-hover/item:bg-teal-50 transition-colors shrink-0 hidden sm:flex">
-                                            <i class="ph ph-arrow-right font-bold"></i>
+                                        <div class="flex items-center gap-2 shrink-0">
+                                            @if($firstPhoto)
+                                                <button @click.prevent="photoModalOpen = true; currentPhoto = '{{ Storage::url($firstPhoto) }}'; currentPhotoName = '{{ str_replace("'", "\'", $good->name) }}'" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-colors border border-indigo-200 hover:border-indigo-600 text-xs font-bold shadow-sm" title="Lihat Foto">
+                                                    <i class="ph ph-camera text-base"></i> Foto
+                                                </button>
+                                            @endif
+                                            <div class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 border border-slate-100 group-hover/item:border-teal-200 group-hover/item:text-teal-600 group-hover/item:bg-teal-50 transition-colors hidden sm:flex">
+                                                <i class="ph ph-arrow-right font-bold"></i>
+                                            </div>
                                         </div>
                                     </a>
                                 @endforeach
@@ -227,6 +259,15 @@
                     } elseif ($good->condition === 'Rusak Berat') {
                         $conditionClass = 'bg-red-50 text-red-700 border-red-200';
                         $icon = 'ph-x-circle';
+                    }
+                    $firstPhoto = null;
+                    if (!empty($good->documentation) && is_array($good->documentation)) {
+                        foreach ($good->documentation as $doc) {
+                            if (\Illuminate\Support\Str::endsWith(strtolower($doc), ['.jpg', '.jpeg', '.png', '.webp'])) {
+                                $firstPhoto = $doc;
+                                break;
+                            }
+                        }
                     }
                 @endphp
                 <a href="{{ route('public.good.detail', $good) }}" class="group block bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:shadow-xl hover:border-teal-300 hover:-translate-y-1 transition-all duration-300">
@@ -251,8 +292,15 @@
                             <i class="ph ph-calendar-blank"></i> <span class="text-slate-600 font-bold">{{ $good->date ? \Carbon\Carbon::parse($good->date)->format('Y') : '-' }}</span>
                         </span>
                         
-                        <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-teal-50 group-hover:text-teal-600 transition-colors">
-                            <i class="ph ph-arrow-right font-bold"></i>
+                        <div class="flex items-center gap-2">
+                            @if($firstPhoto)
+                                <button @click.prevent="photoModalOpen = true; currentPhoto = '{{ Storage::url($firstPhoto) }}'; currentPhotoName = '{{ str_replace("'", "\'", $good->name) }}'" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-colors border border-indigo-200 hover:border-indigo-600 text-xs font-bold shadow-sm" title="Lihat Foto">
+                                    <i class="ph ph-camera text-base"></i> Foto
+                                </button>
+                            @endif
+                            <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-teal-50 group-hover:text-teal-600 transition-colors border border-slate-100">
+                                <i class="ph ph-arrow-right font-bold"></i>
+                            </div>
                         </div>
                     </div>
                 </a>
@@ -267,5 +315,42 @@
             <p class="text-slate-500 font-medium max-w-sm">Tidak ada barang atau aset yang saat ini ditempatkan di ruangan ini.</p>
         </div>
     @endif
+
+    <!-- Photo Modal via Alpine.js -->
+    <div x-show="photoModalOpen" style="display: none;" class="fixed inset-0 z-[100] overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <!-- Background overlay -->
+            <div x-show="photoModalOpen" 
+                 x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                 x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                 class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm transition-opacity" @click="photoModalOpen = false" aria-hidden="true"></div>
+
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+            <!-- Modal panel -->
+            <div x-show="photoModalOpen"
+                 x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                 x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                 class="inline-block align-bottom bg-white rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl w-full border border-slate-100">
+                 
+                <div class="bg-white p-4 sm:p-6 relative">
+                    <button @click="photoModalOpen = false" class="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-slate-100/80 backdrop-blur-sm text-slate-500 hover:bg-slate-200 border border-slate-200 hover:text-slate-800 transition-colors">
+                        <i class="ph ph-x font-bold"></i>
+                    </button>
+                    <div class="sm:flex sm:items-start w-full">
+                        <div class="text-center sm:text-left w-full">
+                            <h3 class="text-lg leading-6 font-bold text-slate-900 mb-4 pr-8 border-b border-slate-100 pb-3" id="modal-title" x-text="currentPhotoName"></h3>
+                            <div class="relative w-full rounded-2xl overflow-hidden bg-slate-50 flex items-center justify-center border border-slate-200 mt-2 min-h-[50vh] sm:min-h-0">
+                                <template x-if="currentPhoto">
+                                    <img :src="currentPhoto" class="w-full h-auto max-h-[70vh] object-contain rounded-2xl transition-transform hover:scale-105" alt="Foto Barang" @click="window.open(currentPhoto, '_blank')" style="cursor: zoom-in;">
+                                </template>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-4 text-center select-none"><i class="ph ph-info mr-1"></i> Klik gambar untuk melihat ukuran penuh pada tab baru.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection

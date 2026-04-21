@@ -117,6 +117,7 @@ class GoodResource extends Resource
                             ->prefix('Rp'),
                         FileUpload::make('documentation')
                             ->label('Dokumentasi')
+                            ->disk('public')
                             ->multiple()
                             ->maxFiles(4)
                             ->maxSize(10240)

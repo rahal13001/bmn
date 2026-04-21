@@ -39,7 +39,7 @@
         }
     </style>
 
-    @filamentStyles
+
     @vite('resources/css/app.css')
 
     @stack('styles')
@@ -116,7 +116,6 @@
         </p>
     </footer>
 
-    @filamentScripts
     @vite('resources/js/app.js')
 </body>
 </html>

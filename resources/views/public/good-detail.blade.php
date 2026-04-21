@@ -134,18 +134,20 @@
                     <span class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2 mb-4">
                         <i class="ph ph-image text-slate-500"></i> Dokumentasi Foto & Berkas
                     </span>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
                         @foreach($good->documentation as $photo)
                             @if(Str::endsWith(strtolower($photo), ['.jpg', '.jpeg', '.png', '.webp']))
                                 <a href="{{ Storage::url($photo) }}" target="_blank" class="group aspect-square rounded-2xl overflow-hidden border border-slate-200 relative block bg-slate-100 shadow-sm">
                                     <img src="{{ Storage::url($photo) }}" alt="Foto {{ $good->name }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-                                        <i class="ph ph-magnifying-glass-plus text-white text-3xl"></i>
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-end pb-3">
+                                        <span class="text-white text-xs font-bold flex items-center gap-1.5 bg-black/30 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                                            <i class="ph ph-magnifying-glass-plus"></i> Perbesar
+                                        </span>
                                     </div>
                                 </a>
                             @else
-                                <a href="{{ Storage::url($photo) }}" target="_blank" class="aspect-square flex flex-col items-center justify-center bg-indigo-50/50 hover:bg-indigo-50 border border-indigo-100 rounded-2xl text-indigo-700 transition-colors duration-300 shadow-sm group p-4 text-center">
-                                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm mb-3 group-hover:scale-110 transition-transform">
+                                <a href="{{ Storage::url($photo) }}" target="_blank" class="aspect-square flex flex-col items-center justify-center bg-indigo-50/50 hover:bg-indigo-100 border border-indigo-200 rounded-2xl text-indigo-700 transition-all duration-300 shadow-sm group p-4 text-center">
+                                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-3 group-hover:scale-110 transition-transform">
                                         <i class="ph ph-file-pdf text-2xl text-red-500"></i>
                                     </div>
                                     <span class="text-xs font-bold">Buka Dokumen</span>
